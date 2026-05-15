@@ -1,4 +1,3 @@
-from datetime import datetime, timezone
 from fastapi import FastAPI, HTTPException
 
 from api.models import VerdictRequest, VerdictResponse

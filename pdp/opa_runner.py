@@ -21,12 +21,16 @@ def evaluate(canonical_input: dict) -> dict:
         "--format", "json",
         "data.beacon.verdict",
     ]
-    proc = subprocess.run(
-        cmd,
-        input=json.dumps(canonical_input).encode("utf-8"),
-        capture_output=True,
-        check=False,
-    )
+    try:
+        proc = subprocess.run(
+            cmd,
+            input=json.dumps(canonical_input).encode("utf-8"),
+            capture_output=True,
+            check=False,
+            timeout=5,
+        )
+    except subprocess.TimeoutExpired as e:
+        raise OpaError("opa eval timed out after 5s") from e
     if proc.returncode != 0:
         raise OpaError(f"opa eval failed: {proc.stderr.decode()}")
 
