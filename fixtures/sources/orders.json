@@ -1,0 +1,30 @@
+{
+  "workloadId": "orders-api",
+  "centralId": "app-orders",
+  "appName": "Orders API",
+  "ownerTeam": "team-orders",
+  "supportGroup": "retail-orders-platform",
+  "platform": "eks",
+  "accountId": "123456789012",
+  "region": "us-east-1",
+  "cluster": "eks-prod-use1-retail-a",
+  "namespace": "orders",
+  "serviceAccount": "orders-api",
+  "environment": "prod",
+  "tenant": "retail",
+  "trustZone": "intranet-app",
+  "complianceDomain": "non-pci",
+  "dataClassification": "confidential",
+  "identity": {
+    "iamRoleArn": "arn:aws:iam::123456789012:role/orders-api-prod"
+  },
+  "serviceNow": {
+    "businessService": "Retail Ordering",
+    "assetRecord": "SN-ASSET-100233",
+    "lifecycleState": "active"
+  },
+  "prisma": {
+    "cloudResourceId": "arn:aws:eks:us-east-1:123456789012:cluster/eks-prod-use1-retail-a",
+    "postureFindings": []
+  }
+}

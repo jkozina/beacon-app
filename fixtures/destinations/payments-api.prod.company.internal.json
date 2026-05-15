@@ -1,0 +1,39 @@
+{
+  "requestedFqdn": "payments-api.prod.company.internal",
+  "canonicalFqdn": "payments-api.service.prod.company.internal",
+  "type": "service",
+  "serviceId": "app-payments-api",
+  "appName": "Payments API",
+  "ownerTeam": "team-payments",
+  "supportGroup": "retail-payments-platform",
+  "environment": "prod",
+  "tenant": "retail",
+  "trustZone": "pci-app",
+  "complianceDomain": "pci",
+  "dataClassification": "restricted",
+  "vip": "10.42.18.25",
+  "exposure": "internal",
+  "backingPlatform": "openshift",
+  "cluster": "ocp-prod-dc1-payments",
+  "namespace": "payments",
+  "resolution": {
+    "status": "resolved",
+    "confidence": "high",
+    "sources": ["internal-dns", "ipam", "service-catalog", "servicenow-itam", "prisma", "openshift-ingress"],
+    "resolvedAddresses": ["10.42.18.25"]
+  },
+  "serviceNow": {
+    "businessService": "Retail Payments",
+    "assetRecord": "SN-ASSET-882100",
+    "lifecycleState": "active"
+  },
+  "prisma": {
+    "cloudResourceId": null,
+    "postureFindings": []
+  },
+  "ownerPolicy": {
+    "requiresSameEnvironment": true,
+    "allowedSourceComplianceDomains": ["pci", "non-pci-with-tokenized-data"],
+    "blockedSourceZones": ["internet"]
+  }
+}
