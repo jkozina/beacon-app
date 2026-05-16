@@ -1,0 +1,27 @@
+{
+  "requestedFqdn": "customers-api.prod.company.internal",
+  "canonicalFqdn": "customers-api.service.prod.company.internal",
+  "type": "service",
+  "serviceId": "app-customers-api",
+  "appName": "Customers API",
+  "ownerTeam": "team-customers",
+  "environment": "prod",
+  "tenant": "retail",
+  "trustZone": "intranet-app",
+  "complianceDomain": "non-pci",
+  "dataClassification": "confidential",
+  "vip": "10.42.20.10",
+  "exposure": "internal",
+  "backingPlatform": "eks",
+  "cluster": "eks-prod-use1-retail-b",
+  "namespace": "customers",
+  "resolution": {
+    "status": "resolved",
+    "confidence": "high",
+    "sources": ["internal-dns", "ipam", "service-catalog"],
+    "resolvedAddresses": ["10.42.20.10"]
+  },
+  "serviceNow": {"businessService": "Retail Customers", "assetRecord": "SN-ASSET-100299", "lifecycleState": "active"},
+  "prisma": {"cloudResourceId": null, "postureFindings": []},
+  "ownerPolicy": {"requiresSameEnvironment": false, "allowedSourceComplianceDomains": ["non-pci", "pci"], "blockedSourceZones": ["internet"]}
+}
