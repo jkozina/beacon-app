@@ -3,14 +3,15 @@ from datetime import datetime, timedelta, timezone
 
 from enricher.enricher import enrich
 from pdp.opa_runner import evaluate
-from signer.signer import sign
 
 BUNDLE_REVISION = "beacon-policy:v2026.05.03"
 DEFAULT_TTL_DAYS = 30
 
 
 def run_pipeline(derived_intent: dict, implementation_context: dict) -> dict:
-    """Resolve, enrich, evaluate, sign. Returns the full verdict envelope."""
+    """Resolve, enrich, evaluate. Returns the unsigned verdict envelope; signing
+    happens in the API layer (server.py) so the bytes signed match the bytes
+    serialized on the wire after Pydantic normalization."""
     enriched, snapshot, snapshot_hash = enrich(derived_intent)
 
     opa_result = evaluate(enriched)
@@ -21,7 +22,7 @@ def run_pipeline(derived_intent: dict, implementation_context: dict) -> dict:
     evaluated_at = datetime.now(timezone.utc)
     expires_at = evaluated_at + timedelta(days=requested_ttl) if allow else None
 
-    verdict = {
+    return {
         "decisionId": f"dec-{uuid.uuid4().hex[:8]}",
         "allow": allow,
         "policyBundle": BUNDLE_REVISION,
@@ -35,5 +36,3 @@ def run_pipeline(derived_intent: dict, implementation_context: dict) -> dict:
         "canonicalRequest": enriched,
         "enrichmentSnapshot": snapshot,
     }
-    verdict["signature"] = sign(verdict)
-    return verdict
