@@ -1,11 +1,29 @@
+from contextlib import asynccontextmanager
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException
 
 from api.models import VerdictRequest, VerdictResponse
 from orchestrator.pipeline import run_pipeline
+from pdp.bundle_verifier import verify_bundle, BundleSignatureError
 from resolver.resolver import DestinationNotFound
 from signer.signer import sign
 
-app = FastAPI(title="beacon-app", version="0.1.0")
+
+@asynccontextmanager
+async def lifespan(app):
+    bundle = Path(__file__).parent.parent / "bundle" / "bundle.tar.gz"
+    pubkey = Path(__file__).parent.parent / "keys" / "bundle-signing.pub"
+    try:
+        verify_bundle(bundle, pubkey)
+        print(f"[beacon-app] bundle verified: {bundle}", flush=True)
+    except BundleSignatureError as e:
+        print(f"[beacon-app] FATAL: bundle signature verification failed: {e}", flush=True)
+        raise SystemExit(2)
+    yield
+
+
+app = FastAPI(title="beacon-app", version="0.1.0", lifespan=lifespan)
 
 
 @app.get("/healthz")
