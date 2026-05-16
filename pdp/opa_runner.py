@@ -50,6 +50,8 @@ def evaluate(canonical_input: dict) -> dict:
 
 
 def _matched_rules(value: dict) -> list[str]:
-    # For the POC, the matched rule names are the deny rule IDs that fired,
-    # plus any explicit "matchedRules" set the bundle returns (added later).
-    return [d.get("id") for d in value.get("deny", []) if d.get("id")]
+    """Combine deny IDs and OPA-emitted matchedRules into a deduped list."""
+    out = set()
+    out.update(d.get("id") for d in value.get("deny", []) if d.get("id"))
+    out.update(value.get("matchedRules", []) or [])
+    return sorted(out)
